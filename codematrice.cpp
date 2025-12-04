@@ -14,7 +14,8 @@ const unsigned KBleu    (34);
 const unsigned KMAgenta (35);
 const unsigned KCyan    (36);
 
-void couleur (const unsigned & coul) {
+void couleur (const unsigned & coul)
+{
     cout << "\033[" << coul <<"m";
 }
 
