@@ -19,9 +19,22 @@ void couleur (const unsigned & coul)
     cout << "\033[" << coul <<"m";
 }
 
-int main() {
-    mat grille(7, line(7));
+void initGrid(mat &grille, const size_t &matSize, const int nbBonbon)
+{
+    grille.resize(matSize);
+    for (unsigned i = 0; i < matSize; ++i)
+    {
+        grille[i].resize(matSize);
+        for (unsigned j = 0; j < matSize; ++j)
+        {
+            grille[i][j] = rand() % nbBonbon;
+        }
+    }
+}
 
+
+void displayGrid (mat grille)
+{
     cout << "  | ";
     for (unsigned j = 0; j < grille[0].size(); ++j)
     {
@@ -41,9 +54,19 @@ int main() {
         cout << i << " | ";
         for (unsigned j = 0; j < grille[i].size(); ++j)
         {
-            grille[i][j] = rand() % 10;
             cout << grille[i][j] << " ";
         }
         cout << endl;
     }
+}
+
+
+int main() 
+{
+    const int nbBonbon = 7;
+    mat grille;
+    const size_t matSize = 7;
+    initGrid(grille, matSize, nbBonbon);
+    displayGrid(grille);
+    return 0;
 }
