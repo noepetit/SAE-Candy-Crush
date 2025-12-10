@@ -14,10 +14,10 @@ const unsigned KBleu    (34);
 const unsigned KMAgenta (35);
 const unsigned KCyan    (36);
 
-void couleur (const unsigned & coul)
-{
-    cout << "\033[" << coul <<"m";
+void couleur (const unsigned & coul) {
+    cout << "\033[" << coul << "m";
 }
+
 
 void initGrid(mat &grille, const size_t &matSize, const int nbBonbon)
 {
@@ -25,13 +25,26 @@ void initGrid(mat &grille, const size_t &matSize, const int nbBonbon)
     for (unsigned i = 0; i < matSize; ++i)
     {
         grille[i].resize(matSize);
+
         for (unsigned j = 0; j < matSize; ++j)
         {
+
             grille[i][j] = rand() % nbBonbon;
         }
     }
 }
 
+void couleurBonbon(int num) {
+    switch (num) {
+    case 0: couleur(41); break; // rouge
+    case 1: couleur(42); break; // vert
+    case 2: couleur(43); break; // jaune
+    case 3: couleur(44); break; // bleu
+    case 4: couleur(45); break; // magenta
+    case 5: couleur(46); break; // cyan
+    default: couleur(47); break; // blanc
+    }
+}
 
 void displayGrid (mat grille)
 {
@@ -54,16 +67,18 @@ void displayGrid (mat grille)
         cout << i << " | ";
         for (unsigned j = 0; j < grille[i].size(); ++j)
         {
+            int num = grille[i][j];
+            couleurBonbon(num);
             cout << grille[i][j] << " ";
+            couleur(KReset);
         }
         cout << endl;
     }
 }
 
 
-int main() 
-{
-    const int nbBonbon = 7;
+int main() {
+    const int nbBonbon = 6;
     mat grille;
     const size_t matSize = 7;
     initGrid(grille, matSize, nbBonbon);
