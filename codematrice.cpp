@@ -8,7 +8,7 @@ typedef vector<line> mat;
 struct maPosition { 
 unsigned abs;
 unsigned ord;
-}
+};
 
 
 const unsigned KReset   (0);
