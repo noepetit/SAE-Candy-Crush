@@ -5,6 +5,12 @@ using namespace std;
 
 typedef vector<unsigned> line;
 typedef vector<line> mat;
+struct maPosition { 
+unsigned abs;
+unsigned ord;
+}
+
+
 const unsigned KReset   (0);
 const unsigned KNoir    (30);
 const unsigned KRouge   (31);
