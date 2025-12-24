@@ -76,6 +76,36 @@ void displayGrid (mat grille)
     }
 }
 
+void makeAMove (mat & grid, const maPosition & pos, const char & direction){
+    
+    switch (direction)
+    {
+    case 'z':
+        if (pos.ord > 0) {
+            swap(grid[pos.ord][pos.abs], grid[pos.ord - 1][pos.abs]);
+        }
+        break;
+    case 's':
+        if (pos.ord < grid.size() - 1) {
+            swap(grid[pos.ord][pos.abs], grid[pos.ord + 1][pos.abs]);
+        }
+        break;
+    case 'q':
+        if (pos.abs > 0) {
+            swap(grid[pos.ord][pos.abs], grid[pos.ord][pos.abs - 1]);
+        }
+        break;
+    case 'd':
+        if (pos.abs < grid[0].size() - 1) {
+            swap(grid[pos.ord][pos.abs], grid[pos.ord][pos.abs + 1]);
+        }
+        break;  
+    
+    default:
+        //attente d'une direction
+        break;
+    }
+}
 
 int main() {
     const int nbBonbon = 6;
