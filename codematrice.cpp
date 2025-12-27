@@ -78,7 +78,7 @@ void displayGrid (mat grille)
 }
 
 void makeAMove (mat & grid, const maPosition & pos, const char & direction){
-    
+
     switch (direction)
     {
     case 'z':
@@ -87,7 +87,7 @@ void makeAMove (mat & grid, const maPosition & pos, const char & direction){
         }
         break;
     case 's':
-        if (pos.ord < grid.size() - 1) {
+        if (pos.ord + 1 < grid.size()) {
             swap(grid[pos.ord][pos.abs], grid[pos.ord + 1][pos.abs]);
         }
         break;
@@ -97,16 +97,17 @@ void makeAMove (mat & grid, const maPosition & pos, const char & direction){
         }
         break;
     case 'd':
-        if (pos.abs < grid[0].size() - 1) {
+        if (pos.abs + 1 < grid[0].size()) {
             swap(grid[pos.ord][pos.abs], grid[pos.ord][pos.abs + 1]);
         }
-        break;  
-    
+        break;
+
     default:
         //attente d'une direction
         break;
     }
 }
+
 
 bool atLeastThreeInARow (const mat & grid, maPosition & pos, unsigned & howMany){
     for (size_t i = 0; i < grid.size(); ++i)
