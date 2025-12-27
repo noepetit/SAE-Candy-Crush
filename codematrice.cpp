@@ -107,6 +107,35 @@ void makeAMove (mat & grid, const maPosition & pos, const char & direction){
     }
 }
 
+bool atLeastThreeInARow (const mat & grid, maPosition & pos, unsigned & howMany){
+    for (size_t i = 0; i < grid.size(); ++i)
+    {
+        unsigned int cpt = 1;
+        for (size_t j = 1; j < grid[i].size(); ++j)
+        {
+            if (grid[i][j] == grid[i][j - 1]) {
+                cpt++;
+            }
+            else {
+                if (cpt >= 3) {
+                    pos.abs = i;
+                    pos.ord = j - cpt;
+                    howMany = cpt;
+                    return true;
+            }
+            cpt = 1;
+            }
+        }
+        if (cpt >= 3) {
+            pos.abs = i;
+            pos.ord = grid[i].size() - cpt;
+            howMany = cpt;
+            return true;
+        }
+    }
+    return false;
+}
+
 int main() {
     const int nbBonbon = 6;
     mat grille;
