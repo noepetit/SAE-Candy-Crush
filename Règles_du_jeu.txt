@@ -1,0 +1,10 @@
+Règles du jeu
+Bienvenue dans notre Candy Crush, un jeu de stratégie et de réflexion. L’objectif est de faire des combinaisons de chiffres identiques (entre 0 et 5) sur une grille de 7x7 pour marquer des points et vider la grille. La partie s'arrête quand vous avez atteint le nombre de tours prévu par le mode de jeu. Chaque chiffre a sa propre couleur pour mieux les repérer. Pour vous déplacer, utilisez les touches : z (haut), s (bas), q (gauche), d (droite) et e pour revenir a l'accueil. Petite règle importante : on ne peut pas enchaîner les coups trop vite.
+Les modes de jeu : 
+On a ajouté plusieurs modes pour varier la difficulté :
+Mode Classique : 
+Ça se joue en 10 tours. Vous choisissez la ligne, la colonne, puis la direction. Pour le score, on fait la somme des chiffres alignés et on multiplie le tout par le nombre de cases. 
+Par exemple, si vous alignez quatre "3", ça fait (3+3+3+3)x4 = 48 points. Si vous alignez des "0", vous gagnez 0 point.
+Mode Inversé : C'est le mode difficile. Toutes les commandes sont inversées (s pour monter, z pour descendre, etc.). Les couleurs et les scores changent aussi : le 5 vaut -1 point, le 4 vaut 1 point, le 3 vaut 2 points, le 2 vaut 3 points, le 1 vaut 4 points et le 0 vaut 5 points.
+Par exemple, trois "2" alignés rapportent 27 points, alors que quatre "5" vous font perdre 16 points.
+Mode Infini : Ici, il n'y a pas de limite de tours. Les couleurs sont les mêmes qu'en classique, mais le score se calcule différemment : on multiplie simplement le chiffre de la case par le nombre de cases alignées. Par exemple, trois "5" alignés font 5x3 = 15 points.
