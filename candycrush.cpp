@@ -15,7 +15,6 @@ struct maPosition
 };
 
 const unsigned KReset(0);
-const unsigned KImpossible(999); // valeur "vide"
 
 void couleur(const unsigned & coul)
 {
@@ -46,14 +45,13 @@ void initGrid(mat &grille, const size_t &matSize, const int nbBonbon)
             unsigned val;
             while (true)
             {
-                 val = rand() % nbBonbon;
-                // Vérification horizontale (à gauche)
+                val = rand() % nbBonbon;
+                // Vérification horizontale
                 bool suiteHorizontale = (j >= 2 && val == grille[i][j-1] && val == grille[i][j-2]);
                 
-                // Vérification verticale (au-dessus)
+                // Vérification verticale 
                 bool suiteVerticale = (i >= 2 && val == grille[i-1][j] && val == grille[i-2][j]);
     
-                // Si aucune de ces conditions n'est vraie, le nombre est bon !
                 if (!suiteHorizontale && !suiteVerticale) break;
             }
             grille[i][j] = val;
@@ -89,24 +87,57 @@ void makeAMove(mat & grid, const maPosition & pos, const char & direction)
     {
         case 'z': case 'Z':
             if (pos.abs > 0) swap(grid[pos.abs][pos.ord], grid[pos.abs - 1][pos.ord]);
-            else cout << "Bord atteint !" << endl; // Optionnel : prévenir le joueur
+            else cout << "Bord atteint" << endl; 
             break;
         case 's': case 'S':
             if (pos.abs + 1 < grid.size()) swap(grid[pos.abs][pos.ord], grid[pos.abs + 1][pos.ord]);
-            else cout << "Bord atteint !" << endl;
+            else cout << "Bord atteint" << endl;
             break;
         case 'q': case 'Q':
             if (pos.ord > 0) swap(grid[pos.abs][pos.ord], grid[pos.abs][pos.ord - 1]);
-            else cout << "Bord atteint !" << endl;
+            else cout << "Bord atteint" << endl;
             break;
         case 'd': case 'D':
             if (pos.ord + 1 < grid[0].size()) swap(grid[pos.abs][pos.ord], grid[pos.abs][pos.ord + 1]);
-            else cout << "Bord atteint !" << endl;
+            else cout << "Bord atteint" << endl;
+            break;
+        case 'e': case 'E': 
             break;
     }
 }
 
-bool atLeastThreeInARow (const mat & grid, maPosition & pos, unsigned & howMany){
+
+void makeAMoveInverse(mat & grid, const maPosition & pos, const char & direction)
+{
+    switch (direction)
+    {
+        case 'e': case 'E':
+            break;
+        
+        case 'z': case 'Z':
+            if (pos.abs + 1 < grid.size()) swap(grid[pos.abs][pos.ord], grid[pos.abs + 1][pos.ord]);
+            else cout << "Bord atteint" << endl; 
+            break;
+        
+        case 's': case 'S':
+            if (pos.abs > 0) swap(grid[pos.abs][pos.ord], grid[pos.abs - 1][pos.ord]);
+            else cout << "Bord atteint" << endl;
+            break;
+        
+        case 'q': case 'Q':
+            if (pos.ord + 1 < grid[0].size()) swap(grid[pos.abs][pos.ord], grid[pos.abs][pos.ord + 1]);
+            else cout << "Bord atteint" << endl;
+            break;
+        
+        case 'd': case 'D':
+            if (pos.ord > 0) swap(grid[pos.abs][pos.ord], grid[pos.abs][pos.ord - 1]);
+            else cout << "Bord atteint" << endl;
+            break;
+    }
+}
+
+bool atLeastThreeInARow (const mat & grid, maPosition & pos, unsigned & howMany)
+{
     for (size_t i = 0; i < grid.size(); ++i)
     {
         unsigned int cpt = 1;
@@ -169,39 +200,36 @@ bool atLeastThreeInAColumn(const mat & grid, maPosition & pos, unsigned & howMan
 
 void removalInColumn(mat & grid, const maPosition & pos, unsigned howMany)
 {
-    if (pos.ord + howMany > grid.size())
+    if (pos.abs + howMany > grid.size()) return;
+
+    for (unsigned i = pos.abs; i + howMany < grid.size(); ++i)
     {
-        return;
+        grid[i][pos.ord] = grid[i + howMany][pos.ord];
     }
-    for (unsigned i = pos.ord; i + howMany < grid.size(); ++i)
-    {
-        grid[i][pos.abs] = grid[i + howMany][pos.abs];
-    }
+
     for (unsigned i = grid.size() - howMany; i < grid.size(); ++i)
     {
-        grid[i][pos.abs] = KImpossible ;
+        grid[i][pos.ord] = rand() % 6; // Nombre généré aleatoirement aprés la supression
     }
 }
 
 void removalInRow(mat & grid, const maPosition & pos, unsigned howMany)
 {
-    for ( unsigned colone = pos.abs; colone <pos.abs + howMany; ++colone)
+    for (unsigned colonne = pos.ord; colonne < pos.ord + howMany; ++colonne)
     {
-        removalInColumn(grid, {pos.ord, colone}, 1);
-
+        removalInColumn(grid, {pos.abs, colonne}, 1);
     }
 }
 
-int main ()
+void modeClassique()
 {
-    srand((unsigned)time(0));
     const unsigned nbBonbon = 6;
     const size_t matSize = 7;
 
     mat grille;
     initGrid(grille, matSize, nbBonbon);
 
-    int nbTours = 10;
+    int nbTours = 8;
     unsigned points = 0;
     while (nbTours > 0)
     {
@@ -223,7 +251,96 @@ int main ()
             continue;
         }
 
-        cout << "Direction (z = haut, q = gauche, s = bas, d = droite) : ";
+        cout << "Direction (z = haut, q = gauche, s = bas, d = droite, e = quitter) : ";
+        cin >> direction;
+        if (direction == 'e' || direction == 'E') return; // Retour au menu
+        if (direction != 'z' && direction != 's' && direction != 'q' && direction != 'd' &&
+            direction != 'Z' && direction != 'S' && direction != 'Q' && direction != 'D') 
+        {
+            cout << "direction invalide !" << endl;
+            continue;
+        }
+        pos.abs--; pos.ord--;
+        mat grilleAvantCoup = grille;
+        makeAMove(grille, pos, direction);
+        maPosition foundPos;
+        unsigned howMany;
+        // Pas de suite trouvée
+        if (!atLeastThreeInARow(grille, foundPos, howMany) && 
+            !atLeastThreeInAColumn(grille, foundPos, howMany))
+        {
+            cout << endl << "Coup invalide" << endl;
+            grille = grilleAvantCoup;
+            continue;
+        }
+
+        // Boucle pour les réactions en chaîne
+        while (true) 
+        {
+            maPosition foundPos;
+            unsigned howMany;
+
+            // Allignement horizontal
+            if (atLeastThreeInARow(grille, foundPos, howMany)) 
+            {   
+                unsigned numero = grille[foundPos.abs][foundPos.ord];
+                unsigned gain = ((numero) * howMany) * howMany; // Calcul des points
+                removalInRow(grille, foundPos, howMany);
+                points += gain;
+                
+                cout << endl;
+            }
+            // Allignement vertical
+            else if (atLeastThreeInAColumn(grille, foundPos, howMany)) 
+            {
+                unsigned numero = grille[foundPos.abs][foundPos.ord];
+                unsigned gain = ((numero) * howMany) * howMany;
+                removalInColumn(grille, foundPos, howMany); 
+                points += gain;
+                
+                cout << endl;
+            }
+            // Aucun allignement trouvé
+            else 
+            {
+                break; 
+            }
+        }
+        nbTours--;
+    }
+    cout << "Partie terminée avec " << points << "points !"; 
+}
+
+void modeInverse()
+{
+    const unsigned nbBonbon = 6;
+    const size_t matSize = 7;
+
+    mat grille;
+    initGrid(grille, matSize, nbBonbon);
+
+    int nbTours = 8;
+    unsigned points = 0;
+    while (nbTours > 0)
+    {
+        cout << endl << "Points : " << points << " | Tours : " << nbTours << endl;
+        maPosition pos;
+        char direction;
+        cout << "Ligne (1-7) : ";
+        if(!(cin >> pos.abs) || pos.abs < 1 || pos.abs > matSize)
+        {
+            cout << "Ligne non existante" << endl;
+            continue;
+        } 
+
+        cout << "Colonne (1-7) : ";
+        if(!(cin >> pos.ord) || pos.ord < 1 || pos.ord > matSize)
+        { 
+            cout << "Colonne non existante" << endl;
+            continue;
+        }
+
+        cout << "Direction (z = haut, q = gauche, s = bas, d = droite, e = quitter) : ";
         cin >> direction;
         if (direction != 'z' && direction != 's' && direction != 'q' && direction != 'd' &&
             direction != 'Z' && direction != 'S' && direction != 'Q' && direction != 'D') 
@@ -232,5 +349,203 @@ int main ()
             continue;
         }
         pos.abs--; pos.ord--;
+        mat grilleAvantCoup = grille;
+        makeAMoveInverse(grille, pos, direction);
+        maPosition foundPos;
+        unsigned howMany;
+        // Pas de suite trouvée
+        if (!atLeastThreeInARow(grille, foundPos, howMany) && 
+            !atLeastThreeInAColumn(grille, foundPos, howMany))
+        {
+            cout << endl << "Coup invalide" << endl;
+            grille = grilleAvantCoup;
+            continue;
+        }
+
+        // Boucle pour les réactions en chaîne
+        while (true) 
+        {
+            maPosition foundPos;
+            unsigned howMany;
+
+            // Allignement horizontal
+            if (atLeastThreeInARow(grille, foundPos, howMany)) 
+            {   
+                unsigned numero = grille[foundPos.abs][foundPos.ord];
+                int scoreParNumero;
+                
+                switch (numero)
+                {
+                    case 0: scoreParNumero = 5;  break;
+                    case 1: scoreParNumero = 4;  break;
+                    case 2: scoreParNumero = 3;  break;
+                    case 3: scoreParNumero = 2;  break;
+                    case 4: scoreParNumero = 1;  break;
+                    case 5: scoreParNumero = -1; break; 
+                    default: scoreParNumero = 0; break;
+                }
+
+                int gain = (scoreParNumero*howMany)*howMany;
+
+                removalInRow(grille, foundPos, howMany);
+                points += gain;
+                
+                cout << endl;
+            }
+            // Allignement vertical
+            else if (atLeastThreeInAColumn(grille, foundPos, howMany)) 
+            {
+                unsigned numero = grille[foundPos.abs][foundPos.ord];
+                int scoreParNumero;
+                
+                switch (numero)
+                {
+                    case 0: scoreParNumero = 5;  break;
+                    case 1: scoreParNumero = 4;  break;
+                    case 2: scoreParNumero = 3;  break;
+                    case 3: scoreParNumero = 2;  break;
+                    case 4: scoreParNumero = 1;  break;
+                    case 5: scoreParNumero = -1; break; 
+                    default: scoreParNumero = 0; break;
+                }
+
+                int gain = (scoreParNumero*howMany)*howMany;
+
+                removalInColumn(grille, foundPos, howMany); // Utilise tes nouvelles fonctions
+                points += 10 * howMany;
+                
+                cout << endl;
+            }
+            // Aucun allignement trouvé
+            else 
+            {
+                break; 
+            }
+        }
+        nbTours--;
     }
+    cout << "Partie terminée avec " << points << "points !"; 
+}
+
+void modeInfini ()
+{
+    const unsigned nbBonbon = 6;
+    const size_t matSize = 7;
+
+    mat grille;
+    initGrid(grille, matSize, nbBonbon);
+
+    unsigned nbTours = 0;
+    unsigned points = 0;
+    while (true)
+    {
+        displayGrid(grille);
+        cout << endl << "Points : " << points << " | Tours : " << nbTours << endl;
+        maPosition pos;
+        char direction;
+        cout << "Ligne (1-7) : ";
+        if(!(cin >> pos.abs) || pos.abs < 1 || pos.abs > matSize)
+        {
+            cout << "Ligne non existante" << endl;
+            continue;
+        } 
+
+        cout << "Colonne (1-7) : ";
+        if(!(cin >> pos.ord) || pos.ord < 1 || pos.ord > matSize)
+        { 
+            cout << "Colonne non existante" << endl;
+            continue;
+        }
+
+        cout << "Direction (z = haut, q = gauche, s = bas, d = droite, e = quitter) : ";
+        cin >> direction;
+        if (direction != 'z' && direction != 's' && direction != 'q' && direction != 'd' &&
+            direction != 'Z' && direction != 'S' && direction != 'Q' && direction != 'D') 
+        {
+            cout << "direction invalide !" << endl;
+            continue;
+        }
+        pos.abs--; pos.ord--;
+        mat grilleAvantCoup = grille;
+        makeAMove(grille, pos, direction);
+        maPosition foundPos;
+        unsigned howMany;
+        // Pas de suite trouvée
+        if (!atLeastThreeInARow(grille, foundPos, howMany) && 
+            !atLeastThreeInAColumn(grille, foundPos, howMany))
+        {
+            cout << endl << "Coup invalide" << endl;
+            grille = grilleAvantCoup;
+            continue;
+        }
+
+        // Boucle pour les réactions en chaîne
+        while (true) 
+        {
+            maPosition foundPos;
+            unsigned howMany;
+
+            // Allignement horizontal
+            if (atLeastThreeInARow(grille, foundPos, howMany)) 
+            {   
+                unsigned numero = grille[foundPos.abs][foundPos.ord];
+                unsigned gain = ((numero) * howMany) * howMany; // Calcul des points
+                removalInRow(grille, foundPos, howMany);
+                points += gain;
+                
+                cout << endl;
+            }
+            // Allignement vertical
+            else if (atLeastThreeInAColumn(grille, foundPos, howMany)) 
+            {
+                unsigned numero = grille[foundPos.abs][foundPos.ord];
+                unsigned gain = ((numero) * howMany) * howMany;
+                removalInColumn(grille, foundPos, howMany); 
+                points += gain;
+                
+                cout << endl;
+            }
+            // Aucun allignement trouvé
+            else 
+            {
+                break; 
+            }
+        }
+        nbTours++;
+    }
+    cout << "Partie terminée avec " << points << "points !"; 
+}
+
+
+int main ()
+{
+    unsigned choix;
+    while (true)
+    {
+        cout << "Menu candy crush" << endl;
+        cout << "1-Mode classique" << endl;
+        cout << "2-Mode inversé" << endl;
+        cout << "3-Mode infini" << endl;
+        cout << "Choissisez votre mode : ";
+        if (!(cin >> choix) || choix > 3 || choix < 1)
+        {
+            cout << "Choix non correspondant" << endl;
+            return 0;
+        }
+        switch (choix)
+        {
+            case 1:
+                modeClassique();
+                break;
+            case 2:
+                modeInverse();
+                break;
+            case 3:
+                cout << "Ce mode n'est pas encore dispo" << endl;
+                break;
+            default:
+                break;
+        }
+    }
+    return 0;
 }
