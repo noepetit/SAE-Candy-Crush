@@ -597,7 +597,7 @@ int main ()
             cin.ignore(1000, '\n');
             clearScreen();
             cout << "Choix entre 3 nombres et t'as quand meme echoué...";
-            continue;
+            return 0;
         }
         switch (choix)
         {
