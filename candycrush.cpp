@@ -39,6 +39,22 @@ void couleurBonbon(int num)
         default: couleur(47); break;
     }
 }
+
+void couleurBonbonInverse(int num)
+{
+    switch (num)
+    {
+
+        case 0: couleur(41); break; 
+        case 1: couleur(42); break; 
+        case 2: couleur(44); break; 
+        case 3: couleur(46); break; 
+        case 4: couleur(45); break; 
+        case 5: couleur(41); break; 
+        default: couleur(47); break;
+    }
+}
+
 void initGrid(mat &grille, const size_t &matSize, const int nbBonbon)
 {
     srand(time(0));
@@ -65,7 +81,7 @@ void initGrid(mat &grille, const size_t &matSize, const int nbBonbon)
     }
 }
 
-void displayGrid(const mat& grille)
+void displayGrid(const mat& grille, bool inverse)
 {
     cout << "  | ";
     for (unsigned j = 0; j < grille[0].size(); ++j) cout << j + 1 << " ";
@@ -79,7 +95,14 @@ void displayGrid(const mat& grille)
         for (unsigned j = 0; j < grille[i].size(); ++j)
         {
             int num = grille[i][j];
-            couleurBonbon(num);
+            if (inverse) 
+            {
+                couleurBonbonInverse(num);
+            }
+            else
+            {
+                couleurBonbon(num);
+            } 
             cout << grille[i][j] << " ";
             couleur(KReset);
         }
@@ -240,7 +263,7 @@ void modeClassique()
     while (nbTours > 0)
     {
         clearScreen();
-        displayGrid(grille);
+        displayGrid(grille, false);
         cout << endl << "Points : " << points << " | Tours restants : " << nbTours << endl;
         maPosition pos;
         char direction;
@@ -331,7 +354,7 @@ void modeInverse()
     while (nbTours > 0)
     {
         clearScreen();
-        displayGrid(grille);
+        displayGrid(grille, true);
         cout << endl << "Points : " << points << " | Tours restants : " << nbTours << endl;
         maPosition pos;
         char direction;
@@ -449,7 +472,7 @@ void modeInfini ()
     while (true)
     {
         clearScreen();
-        displayGrid(grille);
+        displayGrid(grille, false);
         cout << endl << "Points : " << points << " | Tours : " << nbTours << endl;
         maPosition pos;
         char direction;
@@ -533,13 +556,14 @@ int main ()
     while (true)
     {
         cout << "Menu candy crush" << endl;
+        cout << endl;
         cout << "1-Mode classique" << endl;
         cout << "2-Mode inversé" << endl;
         cout << "3-Mode infini" << endl;
         cout << "Choissisez votre mode : ";
         if (!(cin >> choix) || choix > 3 || choix < 1)
         {
-            cout << "Choix non correspondant" << endl;
+            cout << "Choix entre 3 nombres et t'as quand meme echoué...";
             return 0;
         }
         switch (choix)
