@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <ctime>
 
+
 using namespace std;
 
 typedef vector<unsigned> line;
@@ -21,6 +22,10 @@ void couleur(const unsigned & coul)
     cout << "\033[" << coul << "m";
 }
 
+void clearScreen () {
+    cout << "\033[H\033[2J";
+}
+
 void couleurBonbon(int num)
 {
     switch (num)
@@ -36,11 +41,12 @@ void couleurBonbon(int num)
 }
 void initGrid(mat &grille, const size_t &matSize, const int nbBonbon)
 {
+    srand(time(0));
     grille.resize(matSize);
-    for (unsigned i = 0; i < matSize; ++i)
+    for (unsigned i = 0; i < matSize; ++i) //i = ligne
     {
         grille[i].resize(matSize);
-        for (unsigned j = 0; j < matSize; ++j)
+        for (unsigned j = 0; j < matSize; ++j) //j = colonne
         {
             unsigned val;
             while (true)
@@ -233,8 +239,9 @@ void modeClassique()
     unsigned points = 0;
     while (nbTours > 0)
     {
+        clearScreen();
         displayGrid(grille);
-        cout << endl << "Points : " << points << " | Tours : " << nbTours << endl;
+        cout << endl << "Points : " << points << " | Tours restants : " << nbTours << endl;
         maPosition pos;
         char direction;
         cout << "Ligne (1-7) : ";
@@ -263,44 +270,44 @@ void modeClassique()
         pos.abs--; pos.ord--;
         mat grilleAvantCoup = grille;
         makeAMove(grille, pos, direction);
-        maPosition foundPos;
+        maPosition position;
         unsigned howMany;
         // Pas de suite trouvée
-        if (!atLeastThreeInARow(grille, foundPos, howMany) && 
-            !atLeastThreeInAColumn(grille, foundPos, howMany))
+        if (!atLeastThreeInARow(grille, position, howMany) && 
+            !atLeastThreeInAColumn(grille, position, howMany))
         {
             cout << endl << "Coup invalide" << endl;
             grille = grilleAvantCoup;
             continue;
         }
 
-        // Boucle pour les réactions en chaîne
+        // Boucle pour les réactions en chaine
         while (true) 
         {
-            maPosition foundPos;
+            maPosition position;
             unsigned howMany;
 
-            // Allignement horizontal
-            if (atLeastThreeInARow(grille, foundPos, howMany)) 
+            // alignement horizontal
+            if (atLeastThreeInARow(grille, position, howMany)) 
             {   
-                unsigned numero = grille[foundPos.abs][foundPos.ord];
+                unsigned numero = grille[position.abs][position.ord];
                 unsigned gain = ((numero) * howMany) * howMany; // Calcul des points
-                removalInRow(grille, foundPos, howMany);
+                removalInRow(grille, position, howMany);
                 points += gain;
                 
                 cout << endl;
             }
-            // Allignement vertical
-            else if (atLeastThreeInAColumn(grille, foundPos, howMany)) 
+            // alignement vertical
+            else if (atLeastThreeInAColumn(grille, position, howMany)) 
             {
-                unsigned numero = grille[foundPos.abs][foundPos.ord];
+                unsigned numero = grille[position.abs][position.ord];
                 unsigned gain = ((numero) * howMany) * howMany;
-                removalInColumn(grille, foundPos, howMany); 
+                removalInColumn(grille, position, howMany); 
                 points += gain;
                 
                 cout << endl;
             }
-            // Aucun allignement trouvé
+            // Aucun alignement trouvé
             else 
             {
                 break; 
@@ -323,7 +330,9 @@ void modeInverse()
     unsigned points = 0;
     while (nbTours > 0)
     {
-        cout << endl << "Points : " << points << " | Tours : " << nbTours << endl;
+        clearScreen();
+        displayGrid(grille);
+        cout << endl << "Points : " << points << " | Tours restants : " << nbTours << endl;
         maPosition pos;
         char direction;
         cout << "Ligne (1-7) : ";
@@ -351,27 +360,27 @@ void modeInverse()
         pos.abs--; pos.ord--;
         mat grilleAvantCoup = grille;
         makeAMoveInverse(grille, pos, direction);
-        maPosition foundPos;
+        maPosition position;
         unsigned howMany;
         // Pas de suite trouvée
-        if (!atLeastThreeInARow(grille, foundPos, howMany) && 
-            !atLeastThreeInAColumn(grille, foundPos, howMany))
+        if (!atLeastThreeInARow(grille, position, howMany) && 
+            !atLeastThreeInAColumn(grille, position, howMany))
         {
             cout << endl << "Coup invalide" << endl;
             grille = grilleAvantCoup;
             continue;
         }
 
-        // Boucle pour les réactions en chaîne
+        // Boucle pour les réactions en chaine
         while (true) 
         {
-            maPosition foundPos;
+            maPosition position;
             unsigned howMany;
 
-            // Allignement horizontal
-            if (atLeastThreeInARow(grille, foundPos, howMany)) 
+            // alignement horizontal
+            if (atLeastThreeInARow(grille, position, howMany)) 
             {   
-                unsigned numero = grille[foundPos.abs][foundPos.ord];
+                unsigned numero = grille[position.abs][position.ord];
                 int scoreParNumero;
                 
                 switch (numero)
@@ -387,15 +396,15 @@ void modeInverse()
 
                 int gain = (scoreParNumero*howMany)*howMany;
 
-                removalInRow(grille, foundPos, howMany);
+                removalInRow(grille, position, howMany);
                 points += gain;
                 
                 cout << endl;
             }
-            // Allignement vertical
-            else if (atLeastThreeInAColumn(grille, foundPos, howMany)) 
+            // alignement vertical
+            else if (atLeastThreeInAColumn(grille, position, howMany)) 
             {
-                unsigned numero = grille[foundPos.abs][foundPos.ord];
+                unsigned numero = grille[position.abs][position.ord];
                 int scoreParNumero;
                 
                 switch (numero)
@@ -411,12 +420,12 @@ void modeInverse()
 
                 int gain = (scoreParNumero*howMany)*howMany;
 
-                removalInColumn(grille, foundPos, howMany); // Utilise tes nouvelles fonctions
+                removalInColumn(grille, position, howMany); 
                 points += 10 * howMany;
                 
                 cout << endl;
             }
-            // Aucun allignement trouvé
+            // Aucun alignement trouvé
             else 
             {
                 break; 
@@ -439,6 +448,7 @@ void modeInfini ()
     unsigned points = 0;
     while (true)
     {
+        clearScreen();
         displayGrid(grille);
         cout << endl << "Points : " << points << " | Tours : " << nbTours << endl;
         maPosition pos;
@@ -468,11 +478,11 @@ void modeInfini ()
         pos.abs--; pos.ord--;
         mat grilleAvantCoup = grille;
         makeAMove(grille, pos, direction);
-        maPosition foundPos;
+        maPosition position;
         unsigned howMany;
         // Pas de suite trouvée
-        if (!atLeastThreeInARow(grille, foundPos, howMany) && 
-            !atLeastThreeInAColumn(grille, foundPos, howMany))
+        if (!atLeastThreeInARow(grille, position, howMany) && 
+            !atLeastThreeInAColumn(grille, position, howMany))
         {
             cout << endl << "Coup invalide" << endl;
             grille = grilleAvantCoup;
@@ -482,30 +492,30 @@ void modeInfini ()
         // Boucle pour les réactions en chaîne
         while (true) 
         {
-            maPosition foundPos;
+            maPosition position;
             unsigned howMany;
 
-            // Allignement horizontal
-            if (atLeastThreeInARow(grille, foundPos, howMany)) 
+            // alignement horizontal
+            if (atLeastThreeInARow(grille, position, howMany)) 
             {   
-                unsigned numero = grille[foundPos.abs][foundPos.ord];
-                unsigned gain = ((numero) * howMany) * howMany; // Calcul des points
-                removalInRow(grille, foundPos, howMany);
+                unsigned numero = grille[position.abs][position.ord];
+                unsigned gain = numero* howMany; // Calcul des points
+                removalInRow(grille, position, howMany);
                 points += gain;
                 
                 cout << endl;
             }
-            // Allignement vertical
-            else if (atLeastThreeInAColumn(grille, foundPos, howMany)) 
+            // alignement vertical
+            else if (atLeastThreeInAColumn(grille, position, howMany)) 
             {
-                unsigned numero = grille[foundPos.abs][foundPos.ord];
-                unsigned gain = ((numero) * howMany) * howMany;
-                removalInColumn(grille, foundPos, howMany); 
+                unsigned numero = grille[position.abs][position.ord];
+                unsigned gain = numero*howMany;
+                removalInColumn(grille, position, howMany); 
                 points += gain;
                 
                 cout << endl;
             }
-            // Aucun allignement trouvé
+            // Aucun alignement trouvé
             else 
             {
                 break; 
@@ -535,12 +545,15 @@ int main ()
         switch (choix)
         {
             case 1:
+                clearScreen();
                 modeClassique();
                 break;
             case 2:
+                clearScreen();
                 modeInverse();
                 break;
             case 3:
+                clearScreen();
                 modeInfini();
                 break;
             default:
