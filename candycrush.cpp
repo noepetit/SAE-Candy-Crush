@@ -167,6 +167,31 @@ bool atLeastThreeInAColumn(const mat & grid, maPosition & pos, unsigned & howMan
     return false;
 }
 
+void removalInColumn(mat & grid, const maPosition & pos, unsigned howMany)
+{
+    if (pos.ord + howMany > grid.size())
+    {
+        return;
+    }
+    for (unsigned i = pos.ord; i + howMany < grid.size(); ++i)
+    {
+        grid[i][pos.abs] = grid[i + howMany][pos.abs];
+    }
+    for (unsigned i = grid.size() - howMany; i < grid.size(); ++i)
+    {
+        grid[i][pos.abs] = KImpossible ;
+    }
+}
+
+void removalInRow(mat & grid, const maPosition & pos, unsigned howMany)
+{
+    for ( unsigned colone = pos.abs; colone <pos.abs + howMany; ++colone)
+    {
+        removalInColumn(grid, {pos.ord, colone}, 1);
+
+    }
+}
+
 int main ()
 {
     srand((unsigned)time(0));
