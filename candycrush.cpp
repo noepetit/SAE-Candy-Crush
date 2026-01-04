@@ -541,7 +541,7 @@ int main ()
                 modeInverse();
                 break;
             case 3:
-                cout << "Ce mode n'est pas encore dispo" << endl;
+                modeInfini();
                 break;
             default:
                 break;
