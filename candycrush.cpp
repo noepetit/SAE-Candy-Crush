@@ -270,6 +270,9 @@ void modeClassique()
         cout << "Ligne (1-7) : ";
         if(!(cin >> pos.abs) || pos.abs < 1 || pos.abs > matSize)
         {
+            cin.clear(); 
+            cin.ignore(1000, '\n');
+            clearScreen();
             cout << "Ligne non existante" << endl;
             continue;
         } 
@@ -277,6 +280,9 @@ void modeClassique()
         cout << "Colonne (1-7) : ";
         if(!(cin >> pos.ord) || pos.ord < 1 || pos.ord > matSize)
         { 
+            cin.clear(); 
+            cin.ignore(1000, '\n');
+            clearScreen();
             cout << "Colonne non existante" << endl;
             continue;
         }
@@ -287,6 +293,9 @@ void modeClassique()
         if (direction != 'z' && direction != 's' && direction != 'q' && direction != 'd' &&
             direction != 'Z' && direction != 'S' && direction != 'Q' && direction != 'D') 
         {
+            cin.clear(); 
+            cin.ignore(1000, '\n');
+            clearScreen();
             cout << "direction invalide !" << endl;
             continue;
         }
@@ -299,6 +308,7 @@ void modeClassique()
         if (!atLeastThreeInARow(grille, position, howMany) && 
             !atLeastThreeInAColumn(grille, position, howMany))
         {
+            clearScreen();
             cout << endl << "Coup invalide" << endl;
             grille = grilleAvantCoup;
             continue;
@@ -361,6 +371,9 @@ void modeInverse()
         cout << "Ligne (1-7) : ";
         if(!(cin >> pos.abs) || pos.abs < 1 || pos.abs > matSize)
         {
+            cin.clear(); 
+            cin.ignore(1000, '\n');
+            clearScreen();
             cout << "Ligne non existante" << endl;
             continue;
         } 
@@ -368,6 +381,9 @@ void modeInverse()
         cout << "Colonne (1-7) : ";
         if(!(cin >> pos.ord) || pos.ord < 1 || pos.ord > matSize)
         { 
+            cin.clear(); 
+            cin.ignore(1000, '\n');
+            clearScreen();
             cout << "Colonne non existante" << endl;
             continue;
         }
@@ -377,6 +393,9 @@ void modeInverse()
         if (direction != 'z' && direction != 's' && direction != 'q' && direction != 'd' &&
             direction != 'Z' && direction != 'S' && direction != 'Q' && direction != 'D') 
         {
+            cin.clear(); 
+            cin.ignore(1000, '\n');
+            clearScreen();
             cout << "direction invalide !" << endl;
             continue;
         }
@@ -389,6 +408,7 @@ void modeInverse()
         if (!atLeastThreeInARow(grille, position, howMany) && 
             !atLeastThreeInAColumn(grille, position, howMany))
         {
+            clearScreen();
             cout << endl << "Coup invalide" << endl;
             grille = grilleAvantCoup;
             continue;
@@ -444,7 +464,7 @@ void modeInverse()
                 int gain = (scoreParNumero*howMany)*howMany;
 
                 removalInColumn(grille, position, howMany); 
-                points += 10 * howMany;
+                points += gain;
                 
                 cout << endl;
             }
@@ -479,6 +499,9 @@ void modeInfini ()
         cout << "Ligne (1-7) : ";
         if(!(cin >> pos.abs) || pos.abs < 1 || pos.abs > matSize)
         {
+            cin.clear(); 
+            cin.ignore(1000, '\n');
+            clearScreen();
             cout << "Ligne non existante" << endl;
             continue;
         } 
@@ -486,6 +509,9 @@ void modeInfini ()
         cout << "Colonne (1-7) : ";
         if(!(cin >> pos.ord) || pos.ord < 1 || pos.ord > matSize)
         { 
+            cin.clear(); 
+            cin.ignore(1000, '\n');
+            clearScreen();
             cout << "Colonne non existante" << endl;
             continue;
         }
@@ -495,6 +521,9 @@ void modeInfini ()
         if (direction != 'z' && direction != 's' && direction != 'q' && direction != 'd' &&
             direction != 'Z' && direction != 'S' && direction != 'Q' && direction != 'D') 
         {
+            cin.clear(); 
+            cin.ignore(1000, '\n');
+            clearScreen();
             cout << "direction invalide !" << endl;
             continue;
         }
@@ -507,6 +536,7 @@ void modeInfini ()
         if (!atLeastThreeInARow(grille, position, howMany) && 
             !atLeastThreeInAColumn(grille, position, howMany))
         {
+            clearScreen();
             cout << endl << "Coup invalide" << endl;
             grille = grilleAvantCoup;
             continue;
@@ -555,7 +585,7 @@ int main ()
     unsigned choix;
     while (true)
     {
-        cout << "Menu candy crush" << endl;
+        cout << "Menu Principale" << endl;
         cout << endl;
         cout << "1-Mode classique" << endl;
         cout << "2-Mode inversé" << endl;
@@ -563,8 +593,11 @@ int main ()
         cout << "Choissisez votre mode : ";
         if (!(cin >> choix) || choix > 3 || choix < 1)
         {
+            cin.clear(); 
+            cin.ignore(1000, '\n');
+            clearScreen();
             cout << "Choix entre 3 nombres et t'as quand meme echoué...";
-            return 0;
+            continue;
         }
         switch (choix)
         {
