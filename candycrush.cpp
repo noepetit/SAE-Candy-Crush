@@ -30,13 +30,13 @@ void couleurBonbon(int num)
 {
     switch (num)
     {
-        case 0: couleur(41); break;
-        case 1: couleur(42); break;
-        case 2: couleur(43); break;
-        case 3: couleur(44); break;
-        case 4: couleur(45); break;
-        case 5: couleur(46); break;
-        default: couleur(47); break;
+    case 0: couleur(41); break;
+    case 1: couleur(42); break;
+    case 2: couleur(43); break;
+    case 3: couleur(44); break;
+    case 4: couleur(45); break;
+    case 5: couleur(46); break;
+    default: couleur(47); break;
     }
 }
 
@@ -45,13 +45,13 @@ void couleurBonbonInverse(int num)
     switch (num)
     {
 
-        case 0: couleur(41); break; 
-        case 1: couleur(42); break; 
-        case 2: couleur(44); break; 
-        case 3: couleur(46); break; 
-        case 4: couleur(45); break; 
-        case 5: couleur(41); break; 
-        default: couleur(47); break;
+    case 0: couleur(41); break;
+    case 1: couleur(42); break;
+    case 2: couleur(44); break;
+    case 3: couleur(46); break;
+    case 4: couleur(45); break;
+    case 5: couleur(41); break;
+    default: couleur(47); break;
     }
 }
 
@@ -70,10 +70,10 @@ void initGrid(mat &grille, const size_t &matSize, const int nbBonbon)
                 val = rand() % nbBonbon;
                 // Vérification horizontale
                 bool suiteHorizontale = (j >= 2 && val == grille[i][j-1] && val == grille[i][j-2]);
-                
-                // Vérification verticale 
+
+                // Vérification verticale
                 bool suiteVerticale = (i >= 2 && val == grille[i-1][j] && val == grille[i-2][j]);
-    
+
                 if (!suiteHorizontale && !suiteVerticale) break;
             }
             grille[i][j] = val;
@@ -95,14 +95,14 @@ void displayGrid(const mat& grille, bool inverse)
         for (unsigned j = 0; j < grille[i].size(); ++j)
         {
             int num = grille[i][j];
-            if (inverse) 
+            if (inverse)
             {
                 couleurBonbonInverse(num);
             }
             else
             {
                 couleurBonbon(num);
-            } 
+            }
             cout << grille[i][j] << " ";
             couleur(KReset);
         }
@@ -114,24 +114,24 @@ void makeAMove(mat & grid, const maPosition & pos, const char & direction)
 {
     switch (direction)
     {
-        case 'z': case 'Z':
-            if (pos.abs > 0) swap(grid[pos.abs][pos.ord], grid[pos.abs - 1][pos.ord]);
-            else cout << "Bord atteint" << endl; 
-            break;
-        case 's': case 'S':
-            if (pos.abs + 1 < grid.size()) swap(grid[pos.abs][pos.ord], grid[pos.abs + 1][pos.ord]);
-            else cout << "Bord atteint" << endl;
-            break;
-        case 'q': case 'Q':
-            if (pos.ord > 0) swap(grid[pos.abs][pos.ord], grid[pos.abs][pos.ord - 1]);
-            else cout << "Bord atteint" << endl;
-            break;
-        case 'd': case 'D':
-            if (pos.ord + 1 < grid[0].size()) swap(grid[pos.abs][pos.ord], grid[pos.abs][pos.ord + 1]);
-            else cout << "Bord atteint" << endl;
-            break;
-        case 'e': case 'E': 
-            break;
+    case 'z': case 'Z':
+        if (pos.abs > 0) swap(grid[pos.abs][pos.ord], grid[pos.abs - 1][pos.ord]);
+        else cout << "Bord atteint" << endl;
+        break;
+    case 's': case 'S':
+        if (pos.abs + 1 < grid.size()) swap(grid[pos.abs][pos.ord], grid[pos.abs + 1][pos.ord]);
+        else cout << "Bord atteint" << endl;
+        break;
+    case 'q': case 'Q':
+        if (pos.ord > 0) swap(grid[pos.abs][pos.ord], grid[pos.abs][pos.ord - 1]);
+        else cout << "Bord atteint" << endl;
+        break;
+    case 'd': case 'D':
+        if (pos.ord + 1 < grid[0].size()) swap(grid[pos.abs][pos.ord], grid[pos.abs][pos.ord + 1]);
+        else cout << "Bord atteint" << endl;
+        break;
+    case 'e': case 'E':
+        break;
     }
 }
 
@@ -140,28 +140,28 @@ void makeAMoveInverse(mat & grid, const maPosition & pos, const char & direction
 {
     switch (direction)
     {
-        case 'e': case 'E':
-            break;
-        
-        case 'z': case 'Z':
-            if (pos.abs + 1 < grid.size()) swap(grid[pos.abs][pos.ord], grid[pos.abs + 1][pos.ord]);
-            else cout << "Bord atteint" << endl; 
-            break;
-        
-        case 's': case 'S':
-            if (pos.abs > 0) swap(grid[pos.abs][pos.ord], grid[pos.abs - 1][pos.ord]);
-            else cout << "Bord atteint" << endl;
-            break;
-        
-        case 'q': case 'Q':
-            if (pos.ord + 1 < grid[0].size()) swap(grid[pos.abs][pos.ord], grid[pos.abs][pos.ord + 1]);
-            else cout << "Bord atteint" << endl;
-            break;
-        
-        case 'd': case 'D':
-            if (pos.ord > 0) swap(grid[pos.abs][pos.ord], grid[pos.abs][pos.ord - 1]);
-            else cout << "Bord atteint" << endl;
-            break;
+    case 'e': case 'E':
+        break;
+
+    case 'z': case 'Z':
+        if (pos.abs + 1 < grid.size()) swap(grid[pos.abs][pos.ord], grid[pos.abs + 1][pos.ord]);
+        else cout << "Bord atteint" << endl;
+        break;
+
+    case 's': case 'S':
+        if (pos.abs > 0) swap(grid[pos.abs][pos.ord], grid[pos.abs - 1][pos.ord]);
+        else cout << "Bord atteint" << endl;
+        break;
+
+    case 'q': case 'Q':
+        if (pos.ord + 1 < grid[0].size()) swap(grid[pos.abs][pos.ord], grid[pos.abs][pos.ord + 1]);
+        else cout << "Bord atteint" << endl;
+        break;
+
+    case 'd': case 'D':
+        if (pos.ord > 0) swap(grid[pos.abs][pos.ord], grid[pos.abs][pos.ord - 1]);
+        else cout << "Bord atteint" << endl;
+        break;
     }
 }
 
@@ -181,8 +181,8 @@ bool atLeastThreeInARow (const mat & grid, maPosition & pos, unsigned & howMany)
                     pos.ord = j - cpt;
                     howMany = cpt;
                     return true;
-            }
-            cpt = 1;
+                }
+                cpt = 1;
             }
         }
         if (cpt >= 3) {
@@ -260,9 +260,9 @@ void modeClassique()
 
     int nbTours = 8;
     unsigned points = 0;
+    clearScreen();
     while (nbTours > 0)
     {
-        clearScreen();
         displayGrid(grille, false);
         cout << endl << "Points : " << points << " | Tours restants : " << nbTours << endl;
         maPosition pos;
@@ -270,17 +270,17 @@ void modeClassique()
         cout << "Ligne (1-7) : ";
         if(!(cin >> pos.abs) || pos.abs < 1 || pos.abs > matSize)
         {
-            cin.clear(); 
+            cin.clear();
             cin.ignore(1000, '\n');
             clearScreen();
             cout << "Ligne non existante" << endl;
             continue;
-        } 
+        }
 
         cout << "Colonne (1-7) : ";
         if(!(cin >> pos.ord) || pos.ord < 1 || pos.ord > matSize)
-        { 
-            cin.clear(); 
+        {
+            cin.clear();
             cin.ignore(1000, '\n');
             clearScreen();
             cout << "Colonne non existante" << endl;
@@ -289,14 +289,18 @@ void modeClassique()
 
         cout << "Direction (z = haut, q = gauche, s = bas, d = droite, e = quitter) : ";
         cin >> direction;
-        if (direction == 'e' || direction == 'E') return; // Retour au menu
-        if (direction != 'z' && direction != 's' && direction != 'q' && direction != 'd' &&
-            direction != 'Z' && direction != 'S' && direction != 'Q' && direction != 'D') 
+        if (direction == 'e' || direction == 'E')
         {
-            cin.clear(); 
+            clearScreen();
+            return; // Retour au menu
+        }
+        if (direction != 'z' && direction != 's' && direction != 'q' && direction != 'd' &&
+            direction != 'Z' && direction != 'S' && direction != 'Q' && direction != 'D')
+        {
+            cin.clear();
             cin.ignore(1000, '\n');
             clearScreen();
-            cout << "direction invalide !" << endl;
+            cout << "direction invalide" << endl;
             continue;
         }
         pos.abs--; pos.ord--;
@@ -305,7 +309,7 @@ void modeClassique()
         maPosition position;
         unsigned howMany;
         // Pas de suite trouvée
-        if (!atLeastThreeInARow(grille, position, howMany) && 
+        if (!atLeastThreeInARow(grille, position, howMany) &&
             !atLeastThreeInAColumn(grille, position, howMany))
         {
             clearScreen();
@@ -315,40 +319,40 @@ void modeClassique()
         }
 
         // Boucle pour les réactions en chaine
-        while (true) 
+        while (true)
         {
             maPosition position;
             unsigned howMany;
 
             // alignement horizontal
-            if (atLeastThreeInARow(grille, position, howMany)) 
-            {   
+            if (atLeastThreeInARow(grille, position, howMany))
+            {
                 unsigned numero = grille[position.abs][position.ord];
                 unsigned gain = ((numero) * howMany) * howMany; // Calcul des points
                 removalInRow(grille, position, howMany);
                 points += gain;
-                
+
                 cout << endl;
             }
             // alignement vertical
-            else if (atLeastThreeInAColumn(grille, position, howMany)) 
+            else if (atLeastThreeInAColumn(grille, position, howMany))
             {
                 unsigned numero = grille[position.abs][position.ord];
                 unsigned gain = ((numero) * howMany) * howMany;
-                removalInColumn(grille, position, howMany); 
+                removalInColumn(grille, position, howMany);
                 points += gain;
-                
+
                 cout << endl;
             }
             // Aucun alignement trouvé
-            else 
+            else
             {
-                break; 
+                break;
             }
         }
         nbTours--;
     }
-    cout << "Partie terminée avec " << points << "points !"; 
+    cout << "Partie terminée avec " << points << "points !";
 }
 
 void modeInverse()
@@ -361,9 +365,9 @@ void modeInverse()
 
     int nbTours = 8;
     unsigned points = 0;
+    clearScreen();
     while (nbTours > 0)
     {
-        clearScreen();
         displayGrid(grille, true);
         cout << endl << "Points : " << points << " | Tours restants : " << nbTours << endl;
         maPosition pos;
@@ -371,17 +375,17 @@ void modeInverse()
         cout << "Ligne (1-7) : ";
         if(!(cin >> pos.abs) || pos.abs < 1 || pos.abs > matSize)
         {
-            cin.clear(); 
+            cin.clear();
             cin.ignore(1000, '\n');
             clearScreen();
             cout << "Ligne non existante" << endl;
             continue;
-        } 
+        }
 
         cout << "Colonne (1-7) : ";
         if(!(cin >> pos.ord) || pos.ord < 1 || pos.ord > matSize)
-        { 
-            cin.clear(); 
+        {
+            cin.clear();
             cin.ignore(1000, '\n');
             clearScreen();
             cout << "Colonne non existante" << endl;
@@ -390,13 +394,18 @@ void modeInverse()
 
         cout << "Direction (z = haut, q = gauche, s = bas, d = droite, e = quitter) : ";
         cin >> direction;
-        if (direction != 'z' && direction != 's' && direction != 'q' && direction != 'd' &&
-            direction != 'Z' && direction != 'S' && direction != 'Q' && direction != 'D') 
+        if (direction == 'e' || direction == 'E')
         {
-            cin.clear(); 
+            clearScreen();
+            return; // Retour au menu
+        }
+        if (direction != 'z' && direction != 's' && direction != 'q' && direction != 'd' &&
+            direction != 'Z' && direction != 'S' && direction != 'Q' && direction != 'D')
+        {
+            cin.clear();
             cin.ignore(1000, '\n');
             clearScreen();
-            cout << "direction invalide !" << endl;
+            cout << "direction invalide" << endl;
             continue;
         }
         pos.abs--; pos.ord--;
@@ -405,7 +414,7 @@ void modeInverse()
         maPosition position;
         unsigned howMany;
         // Pas de suite trouvée
-        if (!atLeastThreeInARow(grille, position, howMany) && 
+        if (!atLeastThreeInARow(grille, position, howMany) &&
             !atLeastThreeInAColumn(grille, position, howMany))
         {
             clearScreen();
@@ -415,68 +424,68 @@ void modeInverse()
         }
 
         // Boucle pour les réactions en chaine
-        while (true) 
+        while (true)
         {
             maPosition position;
             unsigned howMany;
 
             // alignement horizontal
-            if (atLeastThreeInARow(grille, position, howMany)) 
-            {   
+            if (atLeastThreeInARow(grille, position, howMany))
+            {
                 unsigned numero = grille[position.abs][position.ord];
                 int scoreParNumero;
-                
+
                 switch (numero)
                 {
-                    case 0: scoreParNumero = 5;  break;
-                    case 1: scoreParNumero = 4;  break;
-                    case 2: scoreParNumero = 3;  break;
-                    case 3: scoreParNumero = 2;  break;
-                    case 4: scoreParNumero = 1;  break;
-                    case 5: scoreParNumero = -1; break; 
-                    default: scoreParNumero = 0; break;
+                case 0: scoreParNumero = 5;  break;
+                case 1: scoreParNumero = 4;  break;
+                case 2: scoreParNumero = 3;  break;
+                case 3: scoreParNumero = 2;  break;
+                case 4: scoreParNumero = 1;  break;
+                case 5: scoreParNumero = -1; break;
+                default: scoreParNumero = 0; break;
                 }
 
                 int gain = (scoreParNumero*howMany)*howMany;
 
                 removalInRow(grille, position, howMany);
                 points += gain;
-                
+
                 cout << endl;
             }
             // alignement vertical
-            else if (atLeastThreeInAColumn(grille, position, howMany)) 
+            else if (atLeastThreeInAColumn(grille, position, howMany))
             {
                 unsigned numero = grille[position.abs][position.ord];
                 int scoreParNumero;
-                
+
                 switch (numero)
                 {
-                    case 0: scoreParNumero = 5;  break;
-                    case 1: scoreParNumero = 4;  break;
-                    case 2: scoreParNumero = 3;  break;
-                    case 3: scoreParNumero = 2;  break;
-                    case 4: scoreParNumero = 1;  break;
-                    case 5: scoreParNumero = -1; break; 
-                    default: scoreParNumero = 0; break;
+                case 0: scoreParNumero = 5;  break;
+                case 1: scoreParNumero = 4;  break;
+                case 2: scoreParNumero = 3;  break;
+                case 3: scoreParNumero = 2;  break;
+                case 4: scoreParNumero = 1;  break;
+                case 5: scoreParNumero = -1; break;
+                default: scoreParNumero = 0; break;
                 }
 
                 int gain = (scoreParNumero*howMany)*howMany;
 
-                removalInColumn(grille, position, howMany); 
+                removalInColumn(grille, position, howMany);
                 points += gain;
-                
+
                 cout << endl;
             }
             // Aucun alignement trouvé
-            else 
+            else
             {
-                break; 
+                break;
             }
         }
         nbTours--;
     }
-    cout << "Partie terminée avec " << points << "points !"; 
+    cout << "Partie terminée avec " << points << "points !";
 }
 
 void modeInfini ()
@@ -489,9 +498,9 @@ void modeInfini ()
 
     unsigned nbTours = 0;
     unsigned points = 0;
+    clearScreen();
     while (true)
     {
-        clearScreen();
         displayGrid(grille, false);
         cout << endl << "Points : " << points << " | Tours : " << nbTours << endl;
         maPosition pos;
@@ -499,32 +508,37 @@ void modeInfini ()
         cout << "Ligne (1-7) : ";
         if(!(cin >> pos.abs) || pos.abs < 1 || pos.abs > matSize)
         {
-            cin.clear(); 
+            cin.clear();
             cin.ignore(1000, '\n');
             clearScreen();
             cout << "Ligne non existante" << endl;
             continue;
-        } 
+        }
 
         cout << "Colonne (1-7) : ";
         if(!(cin >> pos.ord) || pos.ord < 1 || pos.ord > matSize)
-        { 
-            cin.clear(); 
+        {
+            cin.clear();
             cin.ignore(1000, '\n');
             clearScreen();
             cout << "Colonne non existante" << endl;
             continue;
         }
 
-        cout << "Direction (z = haut, q = gauche, s = bas, d = droite, e = quitter) : ";
+        cout << "Direction (zqsd, e = quitter) : ";
         cin >> direction;
-        if (direction != 'z' && direction != 's' && direction != 'q' && direction != 'd' &&
-            direction != 'Z' && direction != 'S' && direction != 'Q' && direction != 'D') 
+        if (direction == 'e' || direction == 'E')
         {
-            cin.clear(); 
+            clearScreen();
+            return; // Retour au menu
+        }
+        if (direction != 'z' && direction != 's' && direction != 'q' && direction != 'd' &&
+            direction != 'Z' && direction != 'S' && direction != 'Q' && direction != 'D')
+        {
+            cin.clear();
             cin.ignore(1000, '\n');
             clearScreen();
-            cout << "direction invalide !" << endl;
+            cout << "direction invalide" << endl;
             continue;
         }
         pos.abs--; pos.ord--;
@@ -533,7 +547,7 @@ void modeInfini ()
         maPosition position;
         unsigned howMany;
         // Pas de suite trouvée
-        if (!atLeastThreeInARow(grille, position, howMany) && 
+        if (!atLeastThreeInARow(grille, position, howMany) &&
             !atLeastThreeInAColumn(grille, position, howMany))
         {
             clearScreen();
@@ -543,40 +557,40 @@ void modeInfini ()
         }
 
         // Boucle pour les réactions en chaîne
-        while (true) 
+        while (true)
         {
             maPosition position;
             unsigned howMany;
 
             // alignement horizontal
-            if (atLeastThreeInARow(grille, position, howMany)) 
-            {   
+            if (atLeastThreeInARow(grille, position, howMany))
+            {
                 unsigned numero = grille[position.abs][position.ord];
                 unsigned gain = numero* howMany; // Calcul des points
                 removalInRow(grille, position, howMany);
                 points += gain;
-                
+
                 cout << endl;
             }
             // alignement vertical
-            else if (atLeastThreeInAColumn(grille, position, howMany)) 
+            else if (atLeastThreeInAColumn(grille, position, howMany))
             {
                 unsigned numero = grille[position.abs][position.ord];
                 unsigned gain = numero*howMany;
-                removalInColumn(grille, position, howMany); 
+                removalInColumn(grille, position, howMany);
                 points += gain;
-                
+
                 cout << endl;
             }
             // Aucun alignement trouvé
-            else 
+            else
             {
-                break; 
+                break;
             }
         }
         nbTours++;
     }
-    cout << "Partie terminée avec " << points << "points !"; 
+    cout << "Partie terminée avec " << points << "points !";
 }
 
 
@@ -593,28 +607,27 @@ int main ()
         cout << "Choissisez votre mode : ";
         if (!(cin >> choix) || choix > 3 || choix < 1)
         {
-            cin.clear(); 
+            cin.clear();
             cin.ignore(1000, '\n');
-            clearScreen();
             cout << "Choix entre 3 nombres et t'as quand meme echoué...";
             return 0;
         }
         switch (choix)
         {
-            case 1:
-                clearScreen();
-                modeClassique();
-                break;
-            case 2:
-                clearScreen();
-                modeInverse();
-                break;
-            case 3:
-                clearScreen();
-                modeInfini();
-                break;
-            default:
-                break;
+        case 1:
+            clearScreen();
+            modeClassique();
+            break;
+        case 2:
+            clearScreen();
+            modeInverse();
+            break;
+        case 3:
+            clearScreen();
+            modeInfini();
+            break;
+        default:
+            break;
         }
     }
     return 0;
