@@ -244,9 +244,9 @@ void removalInColumn(mat & grid, const maPosition & pos, unsigned howMany)
 
 void removalInRow(mat & grid, const maPosition & pos, unsigned howMany)
 {
-    for (unsigned colonne = pos.ord; colonne < pos.ord + howMany; ++colonne)
+    for (unsigned j = pos.ord; j < pos.ord + howMany; ++j)
     {
-        removalInColumn(grid, {pos.abs, colonne}, 1);
+        removalInColumn(grid, {pos.abs, j}, 1);
     }
 }
 
