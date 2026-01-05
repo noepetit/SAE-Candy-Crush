@@ -605,7 +605,7 @@ int main ()
         cout << "1-Mode classique" << endl;
         cout << "2-Mode inversé" << endl;
         cout << "3-Mode infini" << endl;
-        cout << "Choissisez votre mode : ";
+        cout << "Choissisez votre mode (1-3) : ";
         if (!(cin >> choix) || choix > 3 || choix < 1)
         {
             cin.clear();
