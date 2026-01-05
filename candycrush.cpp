@@ -350,6 +350,7 @@ void modeClassique()
                 break;
             }
         }
+        clearScreen();
         nbTours--;
     }
     cout << "Partie terminée avec " << points << "points !";
@@ -364,7 +365,7 @@ void modeInverse()
     initGrid(grille, matSize, nbBonbon);
 
     int nbTours = 8;
-    unsigned points = 0;
+    int points = 0;
     clearScreen();
     while (nbTours > 0)
     {
@@ -391,8 +392,7 @@ void modeInverse()
             cout << "Colonne non existante" << endl;
             continue;
         }
-
-        cout << "Direction (z = haut, q = gauche, s = bas, d = droite, e = quitter) : ";
+        cout << "Direction (zqsd, e = quitter) : ";
         cin >> direction;
         if (direction == 'e' || direction == 'E')
         {
@@ -483,6 +483,7 @@ void modeInverse()
                 break;
             }
         }
+        clearScreen();
         nbTours--;
     }
     cout << "Partie terminée avec " << points << "points !";
@@ -524,8 +525,7 @@ void modeInfini ()
             cout << "Colonne non existante" << endl;
             continue;
         }
-
-        cout << "Direction (zqsd, e = quitter) : ";
+        cout << "Direction (z = haut, q = gauche, s = bas, d = droite, e = quitter) : ";
         cin >> direction;
         if (direction == 'e' || direction == 'E')
         {
@@ -588,6 +588,7 @@ void modeInfini ()
                 break;
             }
         }
+        clearScreen();
         nbTours++;
     }
     cout << "Partie terminée avec " << points << "points !";
